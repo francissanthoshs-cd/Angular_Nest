@@ -1,7 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UserEntity } from "./user.entity";
 
 @Entity('todos')
 export class TodoEntity {
+    [x: string]: any;
     @PrimaryGeneratedColumn()
     id: number;
     @Column()
@@ -9,12 +11,15 @@ export class TodoEntity {
     @Column()
     description: string;
     @Column()
-    status:TodoStatus;
-
+    status: TodoStatus;
+    @ManyToOne(() => UserEntity, (user: UserEntity) => user.todos)
+    user: UserEntity
+    @Column()
+    userId: number;
 }
 
 export enum TodoStatus {
-    OPEN ="OPEN",
-    WIP ='WIP',
-    COMPLETED='COMPLETED'
+    OPEN = "OPEN",
+    WIP = 'WIP',
+    COMPLETED = 'COMPLETED'
 }
